@@ -8,7 +8,7 @@ import com.envidual.rtfview.model.Token
 
 class SelectionWrapper(
     private val callback: RTFCallback,
-    private val mapping: Map<String, RTFBuild>
+    private val mapping: Map<String?, RTFBuild>
 ): RTFBuild {
 
     override fun build(tokens: List<Token>): View {
@@ -16,7 +16,7 @@ class SelectionWrapper(
             ?.let { callback.type(it) }
             .let { mapping[it] }
             ?.build(tokens)
-            ?: View(callback.context)
+            ?: View(callback.ctxt)
     }
 
 }

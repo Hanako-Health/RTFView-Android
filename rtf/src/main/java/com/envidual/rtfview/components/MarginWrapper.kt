@@ -2,6 +2,8 @@ package com.envidual.rtfview.components
 
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.envidual.rtfview.core.RTFBuild
 import com.envidual.rtfview.model.Token
 
@@ -17,7 +19,12 @@ class MarginWrapper(
 
     override fun build(tokens: List<Token>): View {
         val view = wrapped.build(tokens)
-        val params = ViewGroup.MarginLayoutParams(view.layoutParams)
+        val p = view.layoutParams
+        val params = if (p == null) {
+            ViewGroup.MarginLayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        } else {
+            ViewGroup.MarginLayoutParams(p)
+        }
 
         top?.let { params.topMargin = it }
         bottom?.let { params.bottomMargin = it }

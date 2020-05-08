@@ -26,7 +26,7 @@ class FlatParser: RTFParser {
             when(val c = input[index]) {
                 tagStart -> {
                     if (content.isNotEmpty()) {
-                        output += Token(content, activeTags)
+                        output += Token(content, activeTags.toList())
                         content = ""
                     }
                     inside = true
@@ -37,7 +37,7 @@ class FlatParser: RTFParser {
                             activeTags.indexOfLast { it.type == tag }
                                 .also { activeTags.removeAt(it) }
                         } else {
-                            activeTags + Tag(tag, param)
+                            activeTags += Tag(tag, param)
                         }
                     }
 
@@ -49,7 +49,7 @@ class FlatParser: RTFParser {
                 tagClose -> {
                     if (param?.isNotEmpty() == true) {
                         activeTags += Tag(tag, param)
-                        output += Token("", activeTags)
+                        output += Token("", activeTags.toList())
                     }
 
                     close = true
@@ -72,6 +72,10 @@ class FlatParser: RTFParser {
                 }
             }
             index++
+        }
+
+        if (content.isNotEmpty()) {
+            output += Token(content, emptyList())
         }
 
         return output

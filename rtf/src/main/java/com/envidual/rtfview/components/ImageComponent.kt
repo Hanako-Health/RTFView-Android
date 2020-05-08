@@ -1,23 +1,24 @@
 package com.envidual.rtfview.components
 
 import android.content.Context
-import android.util.AttributeSet
 import android.view.View
-import android.widget.RelativeLayout
-import androidx.appcompat.widget.AppCompatImageView
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import com.envidual.rtfview.callback.RTFCallback
 import com.envidual.rtfview.core.RTFBuild
 import com.envidual.rtfview.model.Token
-import com.santalu.aspectratioimageview.AspectRatioImageView
+import com.sherlockshi.widget.AspectRatioImageView
 
 class ImageComponent(
-    private val callback: RTFCallback,
-    private val context: Context
+    private val callback: RTFCallback
 ): RTFBuild {
 
     override fun build(tokens: List<Token>): View {
-        val v = AspectRatioImageView(context)
-        v.ratio = 16f / 9f
+        val v = AspectRatioImageView(callback.ctxt)
+        v.layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        v.setWidthRatio(16)
+        v.setHeightRatio(9)
         callback.event(tokens.first(), v)
         return v
     }

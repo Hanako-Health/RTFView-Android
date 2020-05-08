@@ -3,7 +3,7 @@ package com.envidual.rtfview.components
 import android.view.View
 import com.envidual.rtfview.core.RTFBuild
 import com.envidual.rtfview.model.Token
-import com.envidual.rtfview.model.TokenUtil
+import com.envidual.rtfview.util.TokenUtil
 
 class BulletWrapper(
     private val label: RTFBuild

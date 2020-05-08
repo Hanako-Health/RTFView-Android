@@ -7,12 +7,14 @@ import com.envidual.rtfview.model.Token
 
 interface RTFCallback {
 
-    var context: Context
+    val ctxt: Context
 
     fun type(token: Token): String?
 
     fun parameter(token: Token): String?
 
     fun event(token: Token, view: View)
+
+    fun style(token: Token): Int?
 
 }
