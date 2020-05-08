@@ -29,7 +29,9 @@ open class LabelComponent(
         for (token in tokens) {
             val end = index + token.content.length
 
-            callback.style(token)?.also { spannable.setSpan(TextAppearanceSpan(callback.ctxt, it), index, end, flag) }
+            callback.style(token, view)?.also {
+                spannable.setSpan(TextAppearanceSpan(callback.ctxt, it), index, end, flag)
+            }
             if (token.contains("U")) spannable.setSpan(UnderlineSpan(), index, end, flag)
             if (token.contains("I")) spannable.setSpan(StyleSpan(Typeface.ITALIC), index, end, flag)
             if (indent > 0) {

@@ -15,6 +15,6 @@ interface RTFCallback {
 
     fun event(token: Token, view: View)
 
-    fun style(token: Token): Int?
+    fun style(token: Token, view: View): Int?
 
 }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.view.children
 import com.envidual.rtfview.callback.RTFCallback
 import com.envidual.rtfview.common.prefix
@@ -29,22 +30,19 @@ class SegmentWrapper(
             result = result.slice(prefix.size until result.size).toMutableList()
             val view = selector.build(prefix)
 
-            view.layoutParams = if (view.layoutParams == null)
-                ViewGroup.MarginLayoutParams(MATCH_PARENT, WRAP_CONTENT)
-            else
-                ViewGroup.MarginLayoutParams(view.layoutParams)
-
-            (view.layoutParams as ViewGroup.MarginLayoutParams).apply {
-                bottomMargin += spacing
-            }
+            view.layoutParams = view.layoutParams.let {
+                when (it) {
+                    null -> LinearLayoutCompat.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                    is ViewGroup.MarginLayoutParams ->  LinearLayoutCompat.LayoutParams(it)
+                    else -> LinearLayoutCompat.LayoutParams(it)
+                }
+            }.apply { bottomMargin += spacing }
             
             output.addView(view)
         } while (result.isNotEmpty())
 
         output.children.lastOrNull()?.layoutParams.apply {
-            if (this is ViewGroup.MarginLayoutParams) {
-                bottomMargin -= spacing
-            }
+            if (this is ViewGroup.MarginLayoutParams) bottomMargin -= spacing
         }
 
         return output

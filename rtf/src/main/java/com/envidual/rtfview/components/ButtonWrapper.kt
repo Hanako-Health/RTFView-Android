@@ -3,10 +3,13 @@ package com.envidual.rtfview.components
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.appcompat.widget.LinearLayoutCompat.HORIZONTAL
+import androidx.core.view.MarginLayoutParamsCompat
 import com.envidual.rtfview.callback.RTFCallback
 import com.envidual.rtfview.common.toPx
 import com.envidual.rtfview.core.RTFBuild
@@ -23,16 +26,14 @@ class ButtonWrapper(
         val layout = LinearLayoutCompat(view.context)
         val imageView = AppCompatImageView(view.context)
 
-        view.layoutParams = if (view.layoutParams == null) {
-            LinearLayoutCompat.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-        } else {
-            LinearLayoutCompat.LayoutParams(view.layoutParams)
-        }.apply {
-            weight = 1f
-        }
+        view.layoutParams = view.layoutParams.let {
+            when (it) {
+                null -> LinearLayoutCompat.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+                is ViewGroup.MarginLayoutParams ->  LinearLayoutCompat.LayoutParams(it)
+                else -> LinearLayoutCompat.LayoutParams(it)
+            }
+        }.apply { weight = 1f }
+
         imageView.setImageResource(drawable)
         imageView.layoutParams = LinearLayoutCompat.LayoutParams(24.toPx(), 24.toPx())
 

@@ -21,21 +21,6 @@ open class RTFView(context: Context, attrs: AttributeSet) : FrameLayout(context,
             requestLayout()
         }
 
-    init {
-        context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.RTFView,
-            0,
-            0
-        ).apply {
-            try {
-                //text = getString(R.styleable.RTFView_text) ?: ""
-            } finally {
-                recycle()
-            }
-        }
-    }
-
     private fun rebuild() {
         removeAllViews()
         build()
