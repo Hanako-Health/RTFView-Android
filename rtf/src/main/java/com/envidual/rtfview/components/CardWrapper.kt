@@ -15,8 +15,9 @@ class CardWrapper(
 ): RTFBuild {
 
     override fun build(tokens: List<Token>): View {
-        val card = CardView(callback.ctxt)
-        callback.style(tokens.first(), card)
+        var card = CardView(callback.ctxt)
+        val style = callback.style(tokens.first(), card)
+        if (style != null) card = CardView(callback.ctxt, null, style)
         card.addView(wrapped.build(tokens))
         return card
     }
