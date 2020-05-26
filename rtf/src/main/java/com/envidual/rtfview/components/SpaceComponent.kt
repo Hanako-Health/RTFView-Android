@@ -10,14 +10,14 @@ import com.envidual.rtfview.core.RTFBuild
 import com.envidual.rtfview.model.Token
 
 class SpaceComponent(
-    private val callback: RTFCallback
+    private val callback: RTFCallback,
+    private val default: Int = 0
 ): RTFBuild {
 
     override fun build(tokens: List<Token>): View {
-        val token = tokens.first()
-        val param = callback.parameter(token)
-        val space = param?.toInt()?.toPx() ?: 0
-
+        val space = tokens
+            .fold(0) { r, t -> r + (callback.parameter(t)?.toInt() ?: default) }
+            .toPx()
         val view =  View(callback.ctxt)
         view.layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, space)
         return view

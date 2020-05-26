@@ -2,6 +2,7 @@ package com.envidual.rtfview.components
 
 import android.view.View
 import com.envidual.rtfview.core.RTFBuild
+import com.envidual.rtfview.model.Tag
 import com.envidual.rtfview.model.Token
 import com.envidual.rtfview.util.TokenUtil
 
@@ -12,7 +13,7 @@ class BulletWrapper(
     override fun build(tokens: List<Token>): View {
         return TokenUtil.split(tokens, '\n').flatMap { l ->
             val bullet = Token("\u2022\t", emptyList())
-            val line = Token("\n\n", emptyList())
+            val line = Token("", listOf(Tag("SP", null)))
             listOf(bullet) + l + line
         }.dropLast(1).let {
             label.build(it)

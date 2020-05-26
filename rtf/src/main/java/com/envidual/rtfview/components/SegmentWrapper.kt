@@ -15,8 +15,7 @@ import com.envidual.rtfview.model.Token
 
 class SegmentWrapper(
     private val callback: RTFCallback,
-    private val selector: RTFBuild,
-    private val spacing: Int
+    private val selector: RTFBuild
 ): RTFBuild {
 
     override fun build(tokens: List<Token>): View {
@@ -28,22 +27,8 @@ class SegmentWrapper(
         do {
             val prefix = result.prefix { callback.type(it) }
             result = result.slice(prefix.size until result.size).toMutableList()
-            val view = selector.build(prefix)
-
-            view.layoutParams = view.layoutParams.let {
-                when (it) {
-                    null -> LinearLayoutCompat.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-                    is ViewGroup.MarginLayoutParams ->  LinearLayoutCompat.LayoutParams(it)
-                    else -> LinearLayoutCompat.LayoutParams(it)
-                }
-            }.apply { bottomMargin += spacing }
-            
-            output.addView(view)
+            output.addView(selector.build(prefix))
         } while (result.isNotEmpty())
-
-        output.children.lastOrNull()?.layoutParams.apply {
-            if (this is ViewGroup.MarginLayoutParams) bottomMargin -= spacing
-        }
 
         return output
     }
