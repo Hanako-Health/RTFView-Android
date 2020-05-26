@@ -1,5 +1,6 @@
 package com.envidual.rtfview.components
 
+import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,7 @@ import com.envidual.rtfview.model.Token
 class ButtonWrapper(
     private val callback: RTFCallback,
     private val label: RTFBuild,
-    private val drawable: Int
+    private val drawable: Drawable
 ): RTFBuild {
 
     override fun build(tokens: List<Token>): View {
@@ -34,7 +35,7 @@ class ButtonWrapper(
             }
         }.apply { weight = 1f }
 
-        imageView.setImageResource(drawable)
+        imageView.setImageDrawable(drawable)
         imageView.layoutParams = LinearLayoutCompat.LayoutParams(24.toPx(), 24.toPx())
 
         layout.gravity = Gravity.CENTER
