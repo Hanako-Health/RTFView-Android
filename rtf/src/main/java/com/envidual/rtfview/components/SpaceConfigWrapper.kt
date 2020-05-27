@@ -19,7 +19,7 @@ class SpaceConfigWrapper(
                 )
             }
             listOf(it.first())
-        }.flatten().let { wrapped.build(it) }
+        }.flatten().let { wrapped.build(it + tokens.last()) }
     }
 
     interface Callback {
