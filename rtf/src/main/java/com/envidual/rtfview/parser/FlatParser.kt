@@ -47,7 +47,7 @@ class FlatParser: RTFParser {
                     close = false
                 }
                 tagClose -> {
-                    if (param?.isNotEmpty() == true) {
+                    if (tag.isNotEmpty()) {
                         activeTags += Tag(tag, param)
                         output += Token("", activeTags.toList())
                     }
