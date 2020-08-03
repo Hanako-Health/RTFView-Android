@@ -34,8 +34,9 @@ class FlatParser: RTFParser {
                 tagEnd -> {
                     if (inside) {
                         if (close) {
-                            activeTags.indexOfLast { it.type == tag }
-                                .also { activeTags.removeAt(it) }
+                            activeTags.withIndex()
+                                .lastOrNull { it.value.type == tag }
+                                ?.also { activeTags.removeAt(it.index) }
                         } else {
                             activeTags += Tag(tag, param)
                         }
@@ -55,10 +56,9 @@ class FlatParser: RTFParser {
                     close = true
                 }
                 tagParameter -> {
-                    val sub = input.drop(++index)
+                    param = input.drop(++index)
                         .takeWhile { !(it.isWhitespace() || it == tagEnd) }
-                    param = sub
-                    index += sub.length
+                    index += param.length
                     continue@loop
                 }
                 else -> {

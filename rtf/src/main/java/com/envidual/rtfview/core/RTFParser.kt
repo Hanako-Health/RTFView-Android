@@ -6,5 +6,4 @@ interface RTFParser {
 
     fun parse(input: String): List<Token>
 
-
 }

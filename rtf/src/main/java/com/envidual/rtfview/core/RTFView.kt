@@ -17,13 +17,14 @@ open class RTFView(context: Context, attrs: AttributeSet) : FrameLayout(context,
         set(value) {
             field = value
             rebuild()
-            invalidate()
-            requestLayout()
         }
 
-    private fun rebuild() {
+    @SuppressWarnings("WeakerAccess")
+    fun rebuild() {
         removeAllViews()
-        build()
+        if (text.isNotEmpty() && text.isNotBlank()) build()
+        invalidate()
+        requestLayout()
     }
 
     private fun build() {
