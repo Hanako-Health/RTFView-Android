@@ -50,7 +50,7 @@ class FlatParser: RTFParser {
                 tagClose -> {
                     if (!inside) {
                         content += tagClose
-                        continue@loop
+                        break
                     }
 
 
