@@ -5,7 +5,7 @@ import org.junit.Test
 import java.lang.Exception
 
 abstract class RTFParserTest(
-    val parser: RTFParser
+    private val parser: RTFParser
 ) {
 
     @Test
@@ -48,6 +48,20 @@ abstract class RTFParserTest(
                         + (if(v3) "]" else "")
                         + "End"
             )
+    }
+
+    @Test
+    fun testParameterContainingIdentifier() {
+        val tag = "TAG"
+        val parameter = "START=END"
+        val input = "[$tag=$parameter]Content[/$tag]"
+
+        val tokens = parser.parse(input)
+
+        assert(tokens.size == 1)
+        assert(tokens.first().tags.size == 1)
+        assert(tokens.first().tags.first().type == tag)
+        assert(tokens.first().tags.first().parameter == parameter)
     }
 
     private fun testFormattingError(input: String) {
